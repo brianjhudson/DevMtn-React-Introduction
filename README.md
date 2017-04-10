@@ -21,18 +21,20 @@ If a browser didn't pop up for you, double check that your terminal is in the ap
 In this step we are going to change the default react landing page to our calculator.
 
 ### Detailed Instructions
-If we look in our App.js we will see create-react-app created our first component for us. Normally we would start editing this file but we are going to over-write it to save time ( app -> public -> src -> App.js ). Erase everything and use the following code for App.js:
+If we look in our App.js we will see create-react-app created our first component for us. Normally we would start editing this file but we are going to over-write it to save time ( app -> public -> src -> App.js ). 
+Erase everything and use the following code for App.js:
 
 ```jsx
 import React, { Component } from 'react';
 import './App.css';
+import calculatorImage from './calculator.png'
 
 class App extends Component {
   render() {
     return (
       <div id='App'>
         <div id="container-main">
-          <img className="remove-highlight" src="./calculator.png" />
+          <img className="remove-highlight" src={calculatorImage} />
           <div id="calculator-mask" className="remove-highlight">
 
             <div className="output">
@@ -67,6 +69,7 @@ class App extends Component {
 export default App;
 ```
 
+To access the calculator image in the App.js file, please also move the calculator.png file into the src directory.
 
 In addition to App.js, we are going to over-write index.css ( app -> src -> index.css ) with the following code:
 ```css
@@ -257,11 +260,11 @@ With this current setup, any time we change `this.state.display` it will display
 
 Now we can create our function that will update our state property `display`. If we look at line 4 of our App.js file we can see that all our code is being put inside of a class that extends on the React.Component. Because of this, we can add our functions as separate methods on the class. Let's add our new function underneath the render method on our class. In the code snippet I cleared out the render method to save space, you should not clear what's in your render method.
 ```jsx
-  render() {
+  setDisplay(num) {
 
   }
 
-  setDisplay(num) {
+  render() {
 
   }
 ```
@@ -319,6 +322,10 @@ class App extends Component {
     }
   }
 
+  setDisplay(num) {
+    this.setState({ display: this.state.display + num });
+  }
+
   render() {
     return (
       <div id='App'>
@@ -352,10 +359,6 @@ class App extends Component {
         </div>
       </div>
     );
-  }
-
-  setDisplay(num) {
-    this.setState({ display: this.state.display + num });
   }
 }
 
@@ -534,7 +537,7 @@ calculate() {
       break;
   }
 
-  this.setState({ display: result });
+  this.setState({ display: String(result) });
 }
 ```
 
@@ -550,7 +553,7 @@ Last but not least, in this step we will be making the clear button work.
 ### Detailed Instructions
 In our App.js find the element with the `clear` class and let's add an `onClick={}` attribute to call a clearDisplay function.
 ```jsx
-<div className="btn clear" onClick={ () => { this.state.clearDisplay(); }}></div>
+<div className="btn clear" onClick={ () => { this.clearDisplay(); }}></div>
 ```
 As our last method, let's add a function called `clearDisplay`
 ```jsx
